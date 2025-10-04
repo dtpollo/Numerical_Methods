@@ -45,9 +45,15 @@ def main_euler_system(f, y0, T, h, step, initial_condition):
     t_vals, y_vals = euler_system(f, 0, y0, T, h)
 
     # Plotting
-    plt.plot(t_vals, y_vals[:, 0], label='X (Euler)', linestyle='--')
-    plt.plot(t_vals, y_vals[:, 1], label='Y (Euler)', linestyle='--')
-    plt.plot(t_vals, y_vals[:, 2], label='Z (Euler)', linestyle='--')
+    plt.figure()
+    if not np.any(np.isnan(y_vals[:, 0])) and not np.any(np.isinf(y_vals[:, 0])):
+        plt.plot(t_vals, y_vals[:, 0], label='X (Euler)', linestyle='--')
+
+    if not np.any(np.isnan(y_vals[:, 1])) and not np.any(np.isinf(y_vals[:, 1])):
+        plt.plot(t_vals, y_vals[:, 1], label='Y (Euler)', linestyle='--')
+        
+    if not np.any(np.isnan(y_vals[:, 2])) and not np.any(np.isinf(y_vals[:, 2])):   
+        plt.plot(t_vals, y_vals[:, 2], label='Z (Euler)', linestyle='--')
 
     # Exact solutions
     #y1_exact,y2_exact=exact_solution(t_vals)
@@ -62,11 +68,13 @@ def main_euler_system(f, y0, T, h, step, initial_condition):
     plt.legend()
     plt.title('Método de Euler para el sistema de Lorenz')
     filename = f"lorenz_h{step:.4f}_init{initial_condition[2]:.8f}".replace('.', 'p')
-    # Verifica si hay valores inválidos
+
     if np.any(np.isnan(y_vals)) or np.any(np.isinf(y_vals)):
         with open(error_log_path, "a") as log_file:
             log_file.write(f"{filename}.png - contiene NaN o inf\n")
         return  # Evita graficar
+
+
 
     # Guardar imagen si los datos son válidos
     plt.savefig(f"output_lorenz/{filename}.png")
