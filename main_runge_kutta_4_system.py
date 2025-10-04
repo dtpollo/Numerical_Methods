@@ -6,7 +6,7 @@ import os
 # Create output directory if it doesn't exist
 os.makedirs("rk4_lorenz", exist_ok=True)
 
-error_log_path = "rk4_graficos_null.txt"
+error_log_path = "rk4_lorenz/rk4_graficos_null.txt"
 
 # Define the system of ODEs
 def f(t, functions):
